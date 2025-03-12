@@ -100,13 +100,13 @@ export default function Resume() {
           <div className="flex gap-2 mb-2">
             <h4 className="font-bold text-sm">Data:</h4>
             <h4 className="font-light text-sm">
-              {date ? date.format("DD/MM/YYYY") : "No date selected"}
+              {date ? date.format("DD/MM/YYYY") : "Não informado"}
             </h4>
           </div>
           <div className="flex gap-2 mb-2">
             <h4 className="font-bold text-sm">Hora:</h4>
             <h4 className="font-light text-sm">
-              {hour ? hour.format("HH:mm") : "No date selected"}
+              {hour ? hour.format("HH:mm") : "Não informado"}
             </h4>
           </div>
 
@@ -138,12 +138,12 @@ export default function Resume() {
 
           <div className="mt-4">
             {services.map((service, index) => (
-              <div key={index} className="flex gap-2 mb-2">
+              <div key={index} className="flex flex-col gap-2 mb-2">
                 <h4 className="font-bold text-sm">
                   {index + 1} - Serviço Realizado:
                 </h4>
                 <h4 className="font-light text-sm">
-                  {service.descService || "Não informado"}
+                  Descrição: {service.descService || "Não informado"}
                 </h4>
               </div>
             ))}
@@ -156,10 +156,10 @@ export default function Resume() {
                   {index + 1} - Peças Utilizadas:
                 </h4>
                 <h4 className="font-light text-sm">
-                  descrição: {pecas.descricao || "Não informado"}
+                  Descrição: {pecas.descricao || "Não informado"}
                 </h4>
                 <h4 className="font-light text-sm">
-                  quantidade: {pecas.quantidade || "Não informado"}
+                  Quantidade: {pecas.quantidade || "Não informado"}
                 </h4>
               </div>
             ))}
