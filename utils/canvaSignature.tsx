@@ -36,17 +36,19 @@ export const Assinatura = () => {
   };
 
   useEffect(() => {
-    const storedClientSign = localStorage.getItem("ClientSign");
-    const storedTechSign = localStorage.getItem("TechSign");
+    if (typeof window !== "undefined") {
+      const storedClientSign = localStorage.getItem("ClientSign");
+      const storedTechSign = localStorage.getItem("TechSign");
 
-    if (storedClientSign) {
-      setSignatureClient(storedClientSign);
-      sigRefClient.current?.fromDataURL(storedClientSign); // ✅ Aplica a assinatura carregada
-    }
+      if (storedClientSign) {
+        setSignatureClient(storedClientSign);
+        sigRefClient.current?.fromDataURL(storedClientSign); // ✅ Aplica a assinatura carregada
+      }
 
-    if (storedTechSign) {
-      setSignatureTechnician(storedTechSign);
-      sigRefTech.current?.fromDataURL(storedTechSign); // ✅ Aplica a assinatura carregada
+      if (storedTechSign) {
+        setSignatureTechnician(storedTechSign);
+        sigRefTech.current?.fromDataURL(storedTechSign); // ✅ Aplica a assinatura carregada
+      }
     }
   }, []); // ✅ Só executa uma vez ao montar
 
