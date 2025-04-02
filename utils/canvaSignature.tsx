@@ -28,7 +28,7 @@ export const Assinatura = () => {
     ref: React.RefObject<SignatureCanvas>,
     signKey: string
   ) => {
-    if (ref.current) {
+    if (typeof window !== "undefined" && ref.current) {
       ref.current.clear();
       signatureType(null);
       localStorage.removeItem(signKey);
