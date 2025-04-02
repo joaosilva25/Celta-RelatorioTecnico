@@ -16,7 +16,7 @@ export const Assinatura = () => {
     ref: React.RefObject<SignatureCanvas>,
     signKey: string
   ) => {
-    if (signatureType && ref.current) {
+    if (signatureType && ref.current && typeof window !== "undefined") {
       const dataUrl = ref.current.toDataURL();
       signatureType(dataUrl);
       localStorage.setItem(signKey, dataUrl);
@@ -31,7 +31,7 @@ export const Assinatura = () => {
     if (ref.current) {
       ref.current.clear();
       signatureType(null);
-      localStorage.removeItem(signKey); // ✅ Remove do localStorage
+      localStorage.removeItem(signKey);
     }
   };
 
@@ -42,15 +42,15 @@ export const Assinatura = () => {
 
       if (storedClientSign) {
         setSignatureClient(storedClientSign);
-        sigRefClient.current?.fromDataURL(storedClientSign); // ✅ Aplica a assinatura carregada
+        sigRefClient.current?.fromDataURL(storedClientSign);
       }
 
       if (storedTechSign) {
         setSignatureTechnician(storedTechSign);
-        sigRefTech.current?.fromDataURL(storedTechSign); // ✅ Aplica a assinatura carregada
+        sigRefTech.current?.fromDataURL(storedTechSign);
       }
     }
-  }, []); // ✅ Só executa uma vez ao montar
+  }, []);
 
   return (
     <div className="h-full w-full flex flex-col space-y-4">
