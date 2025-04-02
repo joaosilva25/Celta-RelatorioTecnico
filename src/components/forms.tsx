@@ -86,8 +86,10 @@ export default function FormTemplate() {
   const [termino, setTermino] = useState<Dayjs | null>(null);
   const [responsavelFalha, setResponsavelFalha] = useState("");
 
-  const clientSign = sessionStorage.getItem("ClientSign");
-  const techSign = sessionStorage.getItem("TechSign");
+  const clientSign =
+    typeof window !== "undefined" ? sessionStorage.getItem("ClientSign") : null;
+  const techSign =
+    typeof window !== "undefined" ? sessionStorage.getItem("TechSign") : null;
 
   const [showAlert, setShowAlert] = useState<Alert>({
     severity: "success",
