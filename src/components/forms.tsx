@@ -1,5 +1,5 @@
 "use client";
-import { useState, createContext } from "react";
+import React, { useState, createContext } from "react";
 import { FaDeleteLeft } from "react-icons/fa6";
 import "dayjs/locale/pt";
 import { motion } from "motion/react";
@@ -8,13 +8,22 @@ import Resume from "./Resume";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { ptBR } from "@mui/x-date-pickers/locales";
+import Button from "@mui/material/Button";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 import "dayjs/locale/pt-br";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { MyContextType, Pecas, Produto, Service } from "../../types/MyContext";
+import {
+  Alert,
+  MyContextType,
+  Pecas,
+  Produto,
+  Service,
+} from "../../types/MyContext";
 import {
   addNewPecas,
   addNewService,
@@ -22,6 +31,8 @@ import {
   deleteService,
 } from "../../utils/addAndDeleteInputsFunction";
 import dayjs, { Dayjs } from "dayjs";
+import { Pagination, Stack } from "@mui/material";
+import { Assinatura } from "../../utils/canvaSignature";
 
 dayjs.locale("pt-br");
 dayjs.extend(utc);
@@ -30,12 +41,6 @@ dayjs.extend(timezone);
 export const MyContext = createContext<MyContextType | null>(null);
 export default function FormTemplate() {
   let [activeTab, setActiveTab] = useState(0);
-
-  interface Alert {
-    severity: "error" | "warning" | "info" | "success";
-    text: string;
-    show: boolean;
-  }
 
   const [services, setServices] = useState<Service[]>([
     {
@@ -52,22 +57,22 @@ export default function FormTemplate() {
   const [pecas, setPecas] = useState<Pecas[]>([
     {
       descricao: " ",
-      quantidade: "0",
+      quantidade: "1",
     },
   ]);
 
   const handleInputChangePecas = (index: any, field: any, value: any) => {
-    const updatedProdInputs: any = [...services];
+    const updatedProdInputs: any = [...pecas];
     updatedProdInputs[index][field] = value;
     setPecas(updatedProdInputs);
   };
 
   const [numeroDoContainer, setNumeroDoContainer] = useState("");
   const [responsavelTecnico, setResponsavelTecnico] = useState("");
-  const [equipamento, setEquipamento] = useState("");
   const [date, setDate] = useState<Dayjs | null>(null);
   const [hour, setHour] = useState<Dayjs | null>(null);
   const [obs, setObs] = useState("");
+  const [ocorrencia, setOcorrencia] = useState("");
 
   const [responsavelCliente, setResponsavelCliente] = useState("");
   const [email, setEmail] = useState("");
@@ -81,13 +86,23 @@ export default function FormTemplate() {
   const [termino, setTermino] = useState<Dayjs | null>(null);
   const [responsavelFalha, setResponsavelFalha] = useState("");
 
-  const [loadReqText, setLoadReqText] = useState(false);
-  const [errorReq, setErrorReq] = useState(false);
+  const clientSign = localStorage.getItem("ClientSign");
+  const techSign = localStorage.getItem("TechSign");
+
   const [showAlert, setShowAlert] = useState<Alert>({
     severity: "success",
     text: "",
     show: false,
   });
+
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const tabs = [
     {
@@ -98,7 +113,7 @@ export default function FormTemplate() {
             Número do Container
           </label>
           <input
-            className="h-12 block w-full bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 sm:text-sm/6"
+            className="h-12 block w-full bg-transparent uppercase px-3 py-1.5 text-base text-gray-900 outline outline-1 placeholder:normal-case -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 sm:text-sm/6"
             placeholder="Número do Container"
             value={numeroDoContainer}
             onChange={(e) => setNumeroDoContainer(e.target.value)}
@@ -106,67 +121,63 @@ export default function FormTemplate() {
           <label className="mt-10 block text-sm/6 font-bold text-gray-900">
             Responsável Técnico
           </label>
-          <select
-            className="mb-4 h-12 block w-full bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2  sm:text-sm/6"
+          <input
+            className="h-12 block w-full bg-transparent uppercase px-3 py-1.5 text-base text-gray-900 outline outline-1 placeholder:normal-case -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 sm:text-sm/6"
             value={responsavelTecnico}
+            placeholder="Responsavel Técnico"
             onChange={(e) => setResponsavelTecnico(e.target.value)}
-          >
-            <option value="">Selecione...</option>
-            <option value="Matheus">Matheus</option>
-            <option value="Patricia">Patricia</option>
-            <option value="Viviane">Viviane</option>
-            <option value="Teste">Teste</option>
-          </select>
+          />
           <label className="mt-10 block text-sm/6 font-bold text-gray-900">
-            Equipamento
+            Ocorrência
           </label>
           <select
+            value={ocorrencia}
+            onChange={(e) => setOcorrencia(e.target.value)}
             className="mb-4 h-12 block w-full bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2  sm:text-sm/6"
-            value={equipamento}
-            onChange={(e) => setEquipamento(e.target.value)}
           >
             <option value="">Selecione...</option>
-            <option value="Reefer">Reefer</option>
-            <option value="Ar condicionado">Ar condicionado</option>
-            <option value="Trafo">Trafo</option>
+            <option value="Emergencial">Emergencial</option>
+            <option value="Garantia">Garantia</option>
+            <option value="Preventiva Contrato">Preventiva Contrato</option>
+            <option value="Corretiva Contrato">Corretiva Contrato</option>
             <option value="Outros">Outros</option>
           </select>
-          <label className="mt-10 block text-sm/6 font-bold text-gray-900">
-            Data
-          </label>
-          <LocalizationProvider
-            dateAdapter={AdapterDayjs}
-            localeText={
-              ptBR.components.MuiLocalizationProvider.defaultProps.localeText
-            }
-            adapterLocale="pt"
-          >
-            <DatePicker
-              views={["day", "month", "year"]}
-              value={date}
-              timezone="America/Sao_Paulo"
-              onChange={(newValue) => setDate(newValue)}
-            />
-          </LocalizationProvider>
-          <label className="mt-10 block text-sm/6 font-bold text-gray-900">
-            Hora
-          </label>
-          <LocalizationProvider
-            dateAdapter={AdapterDayjs}
-            localeText={
-              ptBR.components.MuiLocalizationProvider.defaultProps.localeText
-            }
-          >
-            <TimePicker
-              views={["hours", "minutes"]}
-              ampm={false}
-              timezone="America/Sao_Paulo"
-              onChange={(newValue) => setHour(newValue)}
+
+          <div className="mt-14 flex justify-between gap-4">
+            <LocalizationProvider
+              dateAdapter={AdapterDayjs}
               localeText={
                 ptBR.components.MuiLocalizationProvider.defaultProps.localeText
               }
-            />
-          </LocalizationProvider>
+              adapterLocale="pt"
+            >
+              <DatePicker
+                views={["day", "month", "year"]}
+                value={date}
+                label={"Data"}
+                timezone="America/Sao_Paulo"
+                onChange={(newValue) => setDate(newValue)}
+              />
+            </LocalizationProvider>
+            <LocalizationProvider
+              dateAdapter={AdapterDayjs}
+              localeText={
+                ptBR.components.MuiLocalizationProvider.defaultProps.localeText
+              }
+            >
+              <TimePicker
+                views={["hours", "minutes"]}
+                ampm={false}
+                label={"Hora"}
+                timezone="America/Sao_Paulo"
+                onChange={(newValue) => setHour(newValue)}
+                localeText={
+                  ptBR.components.MuiLocalizationProvider.defaultProps
+                    .localeText
+                }
+              />
+            </LocalizationProvider>
+          </div>
         </>
       ),
       index: 1,
@@ -176,7 +187,7 @@ export default function FormTemplate() {
       content: (
         <>
           <label className="mt-10 block text-sm/6 font-bold text-gray-900">
-            Responsável pelo Cliente
+            Responsável Cliente
           </label>
           <input
             className="h-12 block w-full bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 sm:text-sm/6"
@@ -212,6 +223,8 @@ export default function FormTemplate() {
           <input
             className="h-12 block w-full bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 sm:text-sm/6"
             placeholder="RG"
+            type="number"
+            min="0"
             value={rg}
             onChange={(e) => setRg(e.target.value)}
           />
@@ -227,8 +240,8 @@ export default function FormTemplate() {
             <div key={index}>
               <div className="flex gap-10 mt-10 mb-10">
                 <h1 className="text-md font-bold">
-                  Serviços -{" "}
-                  <span className="font-light text-md">{index + 1}</span>
+                  <span className="font-light text-md">{index + 1}</span> -
+                  Serviços
                 </h1>
                 {index > 0 ? (
                   <button
@@ -244,11 +257,12 @@ export default function FormTemplate() {
               </label>
               <textarea
                 placeholder="Descrição"
+                rows={4}
                 value={serviceElement.descService}
                 onChange={(e) =>
                   handleInputChange(index, "descService", e.target.value)
                 }
-                className="h-12 mt-2 block w-full bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 sm:text-sm"
+                className="mt-2 block w-full  resize-none bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 sm:text-sm"
               />
             </div>
           ))}
@@ -270,8 +284,8 @@ export default function FormTemplate() {
             <div key={index}>
               <div className="flex gap-10 mt-10 mb-10">
                 <h1 className="text-md font-bold">
-                  Peças Utilizadas -{" "}
-                  <span className="font-light text-md">{index + 1}</span>
+                  <span className="font-light text-md">{index + 1}</span> -
+                  Peças Utilizadas
                 </h1>
                 {index > 0 ? (
                   <button
@@ -291,7 +305,8 @@ export default function FormTemplate() {
                 onChange={(e) =>
                   handleInputChangePecas(index, "descricao", e.target.value)
                 }
-                className="h-12 block w-full bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 sm:text-sm/6"
+                rows={3}
+                className="w-full block resize-none first-letter:w-full bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 sm:text-sm/6"
               />
               <label className="mt-10 block text-sm/6 font-bold text-gray-900">
                 Quantidade
@@ -299,6 +314,7 @@ export default function FormTemplate() {
               <input
                 className="h-12 block w-full bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 sm:text-sm/6"
                 placeholder="Quantidade"
+                min="1"
                 value={pecasElement.quantidade}
                 onChange={(e) =>
                   handleInputChangePecas(index, "quantidade", e.target.value)
@@ -329,53 +345,28 @@ export default function FormTemplate() {
             onChange={(e) => setResponsavelFalha(e.target.value)}
             className="mb-4 h-12 block w-full bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2  sm:text-sm/6"
           >
+            <option value="">Selecione...</option>
             <option value="Celta">Celta</option>
             <option value="Cliente">Cliente</option>
           </select>
-          <div className="flex gap-4 items-center">
-            <div className="flex flex-col">
-              <label className="mt-10 block text-sm/6 font-bold text-gray-900">
-                Inicio
-              </label>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DateTimePicker
-                  ampm={false}
-                  value={inicio}
-                  onChange={(newValue) => setInicio(newValue)}
-                />
-              </LocalizationProvider>
-            </div>
-            <div className="flex flex-col">
-              <label className="mt-10 block text-sm/6 font-bold text-gray-900">
-                Termino
-              </label>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DateTimePicker
-                  ampm={false}
-                  value={termino}
-                  onChange={(newValue) => setTermino(newValue)}
-                />
-              </LocalizationProvider>
-            </div>
-          </div>
           <label className="mt-10 block text-sm/6 font-bold text-gray-900">
             Origem
           </label>
-          <textarea
+          <input
             placeholder="Origem"
             value={origem}
             onChange={(e) => setOrigem(e.target.value)}
             className="h-12 block w-full bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 sm:text-sm/6"
-          />
+          ></input>
           <label className="mt-10 block text-sm/6 font-bold text-gray-900">
             Destino
           </label>
-          <textarea
+          <input
             placeholder="Destino"
             value={destino}
             onChange={(e) => setDestino(e.target.value)}
             className="h-12 block w-full bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 sm:text-sm/6"
-          />
+          ></input>
           <label className="mt-10 block text-sm/6 font-bold text-gray-900">
             KM
           </label>
@@ -383,9 +374,35 @@ export default function FormTemplate() {
             className="h-12 block w-full bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 sm:text-sm/6"
             placeholder="KM"
             value={km}
+            min="1"
             onChange={(e) => setKm(e.target.value)}
             type="number"
-          />
+          />{" "}
+          <div className="flex flex-col gap-1">
+            <label className="mt-10 block text-sm/6 font-bold text-gray-900">
+              Data inicial / Final Reparo
+            </label>
+            <div className="flex gap-4 mt-2 justify-between">
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DateTimePicker
+                  views={["day", "month", "year"]}
+                  ampm={false}
+                  value={inicio}
+                  label={"Data Inicial"}
+                  onChange={(newValue) => setInicio(newValue)}
+                />
+              </LocalizationProvider>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DateTimePicker
+                  views={["day", "month", "year"]}
+                  ampm={false}
+                  value={termino}
+                  label={"Data Final"}
+                  onChange={(newValue) => setTermino(newValue)}
+                />
+              </LocalizationProvider>
+            </div>
+          </div>
         </>
       ),
       index: 5,
@@ -407,6 +424,11 @@ export default function FormTemplate() {
       ),
       index: 6,
     },
+    {
+      title: "Assinatura",
+      content: <Assinatura />,
+      index: 7,
+    },
   ];
 
   const next = () => {
@@ -426,9 +448,9 @@ export default function FormTemplate() {
       value={{
         numeroDoContainer,
         responsavelTecnico,
-        equipamento,
         date,
         hour,
+        ocorrencia,
         responsavelCliente,
         email,
         telefone,
@@ -442,41 +464,55 @@ export default function FormTemplate() {
         termino,
         responsavelFalha,
         obs,
+        showAlert,
+        setShowAlert,
+        clientSign,
+        techSign,
       }}
     >
       <div className="flex justify-center bg-white">
-        <motion.div
-          key={tabs[activeTab].index}
-          initial={{ x: 200, opacity: 0 }}
-          animate={{ x: 0, opacity: 1, transition: { duration: 0.4 } }}
-          exit={{ x: -200, opacity: 0 }}
-        >
-          <div className="w-[550px] h-full flex justify-center flex-col items-center">
-            <div className="flex space-x-4 mb-6 w-full">
-              <div className="flex w-full items-center justify-between">
-                <h1 className="text-2xl font-bold">{tabs[activeTab].title}</h1>
-                <h4 className="text-md">
-                  {tabs[activeTab].index} /{" "}
-                  <span className="font-bold">{tabs.length}</span>
-                </h4>
-              </div>
+        <div className="w-[550px] h-full flex justify-center flex-col items-center">
+          <div className="flex space-x-4 mb-4 w-full">
+            <div className="flex w-full items-center justify-between">
+              <h1 className="text-2xl font-bold">{tabs[activeTab].title}</h1>
+              {/* <h2
+                className="text-md h-12 w-40 bg-black text-white"
+                id="demo-positioned-button"
+                aria-controls={open ? "demo-positioned-menu" : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? "true" : undefined}
+                onClick={handleClick}
+              >
+                Menu
+              </button> */}
             </div>
-            <div className="w-full bg-transparent flex gap-4 text-sm pb-4">
-              {tabs.map((tab, index) => (
-                <button
-                  key={index}
-                  onClick={() => setActiveTab(index)}
-                  className={`bg-black h-3 w-3 rounded-full ${
+          </div>
+          <div className="custom-scroll w-full mt-6 cursor-pointer bg-transparent max-w-full flex gap-6 text-sm mb-8 overflow-x-auto">
+            {tabs.map((tab, index) => (
+              <Stack key={index} spacing={2}>
+                <div
+                  className={`flex items-center justify-center border border-black h-10 w-10 ${
                     activeTab === index
-                      ? "bg-primaryColor text-white font-bold"
-                      : "bg-gray-200 text-black"
+                      ? "border-black font-bold bg-black text-white"
+                      : "bg-transparent text-black"
                   }`}
-                ></button>
-              ))}
-            </div>
+                  onClick={() => setActiveTab(index)}
+                >
+                  {index + 1}
+                </div>
+              </Stack>
+            ))}
+          </div>
 
+          <motion.div
+            className="w-full"
+            key={tabs[activeTab].index}
+            initial={{ x: 200, opacity: 0 }}
+            animate={{ x: 0, opacity: 1, transition: { duration: 0.4 } }}
+            exit={{ x: -200, opacity: 0 }}
+          >
             <form
-              className="flex  w-full justify-center flex-col overflow-y-auto overscroll-auto  p-2"
+              className="flex pt-2 w-full justify-center flex-col overflow-y-auto overscroll-auto  p-2"
               method="POST"
               onSubmit={(e) => e.preventDefault()}
             >
@@ -492,9 +528,13 @@ active:scale-105"
               >
                 Próximo
               </button>
+              <div className="mt-10 w-full flex justify-end">
+                {tabs[activeTab].index} /{" "}
+                <span className="font-bold ml-1">{tabs.length}</span>
+              </div>
             </div>
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
       </div>
       <Resume />
     </MyContext.Provider>

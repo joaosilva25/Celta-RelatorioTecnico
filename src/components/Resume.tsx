@@ -1,5 +1,5 @@
 "use client";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { MyContext } from "./forms";
 import Alert from "@mui/material/Alert";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -12,15 +12,24 @@ import { requisition } from "../../utils/requestWebhook";
 export default function Resume() {
   const context = useContext(MyContext);
 
+  function closeAlert() {
+    setShowAlert({
+      severity: "success",
+      text: "",
+      show: false,
+    });
+  }
+
   if (!context) {
     return null;
   }
+
   const {
     numeroDoContainer,
     responsavelTecnico,
-    equipamento,
     date,
     hour,
+    ocorrencia,
     responsavelCliente,
     email,
     telefone,
@@ -34,32 +43,29 @@ export default function Resume() {
     inicio,
     termino,
     responsavelFalha,
+    setShowAlert,
+    showAlert,
+    clientSign,
+    techSign,
   } = context;
 
-  // function closeAlert() {
-  //   setShowAlert({
-  //     severity: "success",
-  //     text: "",
-  //     show: false,
-  //   });
-  // }
   return (
     <div className="flex items-center flex-col lg:justify-center bg-white">
-      {/* {showAlert.show && (
-    <motion.div
-      initial={{ scale: 1, opacity: 0 }}
-      animate={{ scale: 1.2, opacity: 1, transition: { duration: 0.3 } }}
-      exit={{ scale: 0, opacity: 0 }}
-    >
-      <Alert
-        severity={showAlert.severity}
-        className="flex relative bottom-4 w-[450px]"
-        onClose={closeAlert}
-      >
-        <span className="text-xs">{showAlert.text}</span>
-      </Alert>
-    </motion.div>
-  )} */}
+      {showAlert && showAlert.show && (
+        <motion.div
+          initial={{ scale: 1, opacity: 0 }}
+          animate={{ scale: 1.2, opacity: 1, transition: { duration: 0.3 } }}
+          exit={{ scale: 0, opacity: 0 }}
+        >
+          <Alert
+            severity={showAlert.severity}
+            className="flex relative bottom-4 w-[450px]"
+            onClose={closeAlert}
+          >
+            <span className="text-xs">{showAlert.text}</span>
+          </Alert>
+        </motion.div>
+      )}
 
       <div className="w-[400px] lg:h-[600px] p-10 bg-white border flex justify-center flex-col items-center gap-10">
         <div className="w-full">
@@ -72,7 +78,6 @@ export default function Resume() {
           </p>
         </div>
         <div className="h-[300px] overflow-y-auto flex flex-col gap-3 w-full py-6">
-          {/* Atendente */}
           <div className="flex gap-2 mb-2">
             <h4 className="font-bold text-sm">Numero do Container:</h4>
             <h4 className="font-light text-sm">
@@ -80,7 +85,6 @@ export default function Resume() {
             </h4>
           </div>
 
-          {/* Modelo Contrato */}
           <div className="flex gap-2 mb-2">
             <h4 className="font-bold text-sm">Responsável Técnico:</h4>
             <h4 className="font-light text-sm">
@@ -88,15 +92,6 @@ export default function Resume() {
             </h4>
           </div>
 
-          {/* Tipo Transação */}
-          <div className="flex gap-2 mb-2">
-            <h4 className="font-bold text-sm">Equipamento:</h4>
-            <h4 className="font-light text-sm">
-              {equipamento || "Não informado"}
-            </h4>
-          </div>
-
-          {/* Nome / Empresa */}
           <div className="flex gap-2 mb-2">
             <h4 className="font-bold text-sm">Data:</h4>
             <h4 className="font-light text-sm">
@@ -107,6 +102,13 @@ export default function Resume() {
             <h4 className="font-bold text-sm">Hora:</h4>
             <h4 className="font-light text-sm">
               {hour ? hour.format("HH:mm") : "Não informado"}
+            </h4>
+          </div>
+
+          <div className="flex gap-2 mb-2">
+            <h4 className="font-bold text-sm">Ocorrencia:</h4>
+            <h4 className="font-light text-sm">
+              {ocorrencia || "Não informado"}
             </h4>
           </div>
 
@@ -209,20 +211,37 @@ export default function Resume() {
           </div>
 
           <div className="mt-4">
-            <div className="flex gap-2 mb-2">
+            <div className="flex gap-2">
               <h4 className="font-bold text-sm">Observação:</h4>
               <h4 className="font-light text-sm">{obs || "Não informado"}</h4>
+            </div>
+          </div>
+          <div>
+            <div className="flex gap-2">
+              <h4 className="font-bold text-sm">Assinatura Tecnico:</h4>
+              <h4 className="font-light text-sm">
+                {techSign ? "OK" : "Não informado"}
+              </h4>
+            </div>
+          </div>
+          <div>
+            <div className="flex gap-2">
+              <h4 className="font-bold text-sm">Assinatura Cliente:</h4>
+              <h4 className="font-light text-sm">
+                {clientSign ? "OK" : "Não informado"}
+              </h4>
             </div>
           </div>
         </div>
         <button
           onClick={() =>
             requisition(
+              setShowAlert,
               numeroDoContainer,
               responsavelTecnico,
-              equipamento,
               date,
               hour,
+              ocorrencia,
               responsavelCliente,
               email,
               telefone,
@@ -235,7 +254,9 @@ export default function Resume() {
               inicio,
               termino,
               responsavelFalha,
-              obs
+              obs,
+              clientSign,
+              techSign
             )
           }
           className="h-14 relative top-2 flex w-full justify-center gap-5 items-center bg-primaryColor px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm active:scale-105 focus-visible:outline"
