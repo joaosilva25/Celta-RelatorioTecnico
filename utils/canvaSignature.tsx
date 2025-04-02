@@ -19,7 +19,7 @@ export const Assinatura = () => {
     if (signatureType && ref.current && typeof window !== "undefined") {
       const dataUrl = ref.current.toDataURL();
       signatureType(dataUrl);
-      localStorage.setItem(signKey, dataUrl);
+      sessionStorage.setItem(signKey, dataUrl);
     }
   };
 
@@ -31,14 +31,14 @@ export const Assinatura = () => {
     if (typeof window !== "undefined" && ref.current) {
       ref.current.clear();
       signatureType(null);
-      localStorage.removeItem(signKey);
+      sessionStorage.removeItem(signKey);
     }
   };
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const storedClientSign = localStorage.getItem("ClientSign");
-      const storedTechSign = localStorage.getItem("TechSign");
+      const storedClientSign = sessionStorage.getItem("ClientSign");
+      const storedTechSign = sessionStorage.getItem("TechSign");
 
       if (storedClientSign) {
         setSignatureClient(storedClientSign);
