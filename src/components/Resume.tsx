@@ -68,7 +68,7 @@ export default function Resume() {
         </motion.div>
       )}
 
-      <div className="w-[400px] lg:h-[600px] p-8 max-sm:w-full max-sm:pt-16 max-sm:pb-24 max-md:pt-24 max-md:pb-24 max-md:border-none bg-white border flex justify-center flex-col items-center gap-10">
+      <div className="w-[400px] lg:h-[600px] max-sm:w-full p-8 max-sm:w-full max-sm:pt-16 max-sm:pb-24 max-md:pt-24 max-md:pb-24 max-md:border-none bg-white border flex justify-center flex-col items-center gap-10">
         <div className="w-full">
           <h1 className="text-2xl text-center font-semibold">Resumo</h1>
           <p className="opacity-50 text-sm text-justify w-72 mt-8">
