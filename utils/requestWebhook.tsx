@@ -74,6 +74,7 @@ export const requisition = async (
           RG: Rg,
           Services: Services.map((service) => ({
             descService: service.descService,
+            responsavelFalhaServico: service.responsavelFalhaServico,
           })),
           Peças: Pecas.map((peca) => ({
             descrição: peca.descricao,

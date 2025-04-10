@@ -43,7 +43,6 @@ export default function Resume() {
     km,
     inicio,
     termino,
-    responsavelFalha,
     setShowAlert,
     showAlert,
     clientSign,
@@ -224,6 +223,7 @@ export default function Resume() {
           </div> */}
         </div>
         <button
+          disabled={loadReqText}
           onClick={() => {
             setLoadReqText(true);
             requisition(
@@ -248,12 +248,17 @@ export default function Resume() {
               techSign
             ).finally(() => setLoadReqText(false));
           }}
-          className="h-14 relative top-2 flex w-full justify-center gap-5 items-center bg-transparent border border-black px-3 py-1.5 text-sm/6 font-semibold hover:text-white shadow-sm hover:bg-primaryColor active:scale-105 focus-visible:outline"
+          className={`h-14 relative top-2 flex w-full justify-center gap-5 items-center border px-3 py-1.5 text-sm/6 font-semibold shadow-sm focus-visible:outline active:scale-105 transition 
+            ${
+              loadReqText
+                ? "text-white bg-primaryColor opacity-80 cursor-not-allowed"
+                : "bg-transparent border-black text-black hover:text-white hover:bg-primaryColor"
+            }`}
         >
           {loadReqText ? (
             <>
-              <AiOutlineLoading className="animate-spin" />
               Gerando Orçamento...
+              <AiOutlineLoading className="animate-spin" />
             </>
           ) : (
             <>
