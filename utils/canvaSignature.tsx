@@ -55,9 +55,10 @@ export const Assinatura = () => {
   }, []);
 
   return (
-    <div className="h-full w-full flex flex-col space-y-4">
-      <div className="flex-1 px-6">
-        <div className="border-b border-gray-300 h-full">
+    <div className="h-full w-full flex flex-col gap-8 px-4 max-sm:px-2 py-4">
+      {/* Assinatura Técnico */}
+      <div className="flex flex-col gap-4">
+        <div className="border-b border-gray-300 h-48 max-sm:h-36">
           <SignatureCanvas
             canvasProps={{ className: "w-full h-full" }}
             penColor="black"
@@ -67,20 +68,22 @@ export const Assinatura = () => {
             }
           />
         </div>
-        <div className="w-full flex items-center justify-between mt-8 h-8">
-          <h1 className="text-sm/6 font-bold">Assinatura Técnico</h1>
+        <div className="w-full flex items-center justify-between h-8">
+          <h1 className="text-sm font-bold">Assinatura Técnico</h1>
           <button
             onClick={() =>
               clearSignature(setSignatureTechnician, sigRefTech, "TechSign")
             }
-            className="text-white h-full"
+            className="h-full active:scale-110"
           >
             <LiaTimesSolid className="text-2xl text-black" />
           </button>
         </div>
       </div>
-      <div className="flex-1 px-6">
-        <div className="border-b border-gray-300 h-full">
+
+      {/* Assinatura Cliente */}
+      <div className="flex flex-col gap-4">
+        <div className="border-b border-gray-300 h-48 max-sm:h-36">
           <SignatureCanvas
             canvasProps={{ className: "w-full h-full" }}
             penColor="black"
@@ -90,13 +93,13 @@ export const Assinatura = () => {
             }
           />
         </div>
-        <div className="w-full flex items-center justify-between mt-8 h-8">
-          <h1 className="text-sm/6 font-bold">Assinatura Cliente</h1>
+        <div className="w-full flex items-center justify-between h-8">
+          <h1 className="text-sm font-bold">Assinatura Cliente</h1>
           <button
             onClick={() =>
               clearSignature(setSignatureClient, sigRefClient, "ClientSign")
             }
-            className="text-white h-full active:scale-110"
+            className="h-full active:scale-110"
           >
             <LiaTimesSolid className="text-2xl text-black" />
           </button>

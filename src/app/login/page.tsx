@@ -23,7 +23,7 @@ export default function Login() {
   }
 
   return (
-    <main className="bg-white h-screen grid grid-rows-[auto,1fr] grid-cols-2 w-full max-sm:grid-cols-1 max-md:grid-cols-1 text-black">
+    <main className="bg-white h-screen grid grid-rows-[auto,1fr] grid-cols-2 w-screen max-sm:grid-cols-1 max-md:grid-cols-1 text-black">
       {/* Header */}
       <header className="col-span-2 p-0">
         <div className="h-[95px] w-[70px] bg-primaryColor p-0 flex items-center justify-center max-sm:h-[65px] max-sm:w-[65px] max-md:w-[80px] max-md:h-[80px]">
