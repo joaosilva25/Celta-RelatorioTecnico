@@ -56,8 +56,8 @@ export default function Login() {
                 placeholder="Código Acesso"
                 value={accessCode}
                 onChange={(e) => setAcessCode(e.target.value)}
-                className="lg:h-12 block w-full mt-3 bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 max-sm:text-sm
-                max-sm:p-3 max-md:p-4 sm:text-sm/6"
+                className="lg:h-12 block w-full mt-3 bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2
+                max-sm:p-3 max-md:p-4 max-sm:text-base"
               ></input>
             </div>
             <button

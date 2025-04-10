@@ -121,7 +121,7 @@ export default function FormTemplate() {
             Número do Container
           </label>
           <input
-            className="max-sm:text-base h-12 block w-full bg-transparent uppercase px-3 py-1.5 text-base text-gray-900 outline outline-1 placeholder:normal-case -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 sm:text-sm/6"
+            className="max-sm:text-base h-12 block w-full bg-transparent uppercase px-3 py-1.5 text-base text-gray-900 outline outline-1 placeholder:normal-case -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2"
             placeholder="Número do Container"
             value={numeroDoContainer}
             onChange={(e) => setNumeroDoContainer(e.target.value)}
@@ -130,7 +130,7 @@ export default function FormTemplate() {
             Responsável Técnico
           </label>
           <input
-            className="max-sm:text-base h-12 block w-full bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 placeholder:normal-case -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 sm:text-sm/6"
+            className="max-sm:text-base h-12 block w-full bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 placeholder:normal-case -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2"
             value={responsavelTecnico}
             type="text"
             placeholder="Responsavel Técnico"
@@ -142,7 +142,7 @@ export default function FormTemplate() {
           <select
             value={ocorrencia}
             onChange={(e) => setOcorrencia(e.target.value)}
-            className="max-sm:text-base mb-4 h-12 block w-full bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2  sm:text-sm/6"
+            className="max-sm:text-base mb-4 h-12 block w-full bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2"
           >
             <option value="">Selecione...</option>
             <option value="Emergencial">Emergencial</option>
@@ -177,7 +177,8 @@ export default function FormTemplate() {
             Responsável Cliente
           </label>
           <input
-            className="max-sm:text-base h-12 block w-full bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 sm:text-sm/6"
+            className="max-sm:text-base h-12 block w-full bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 
+            "
             placeholder="Cliente"
             value={responsavelCliente}
             onChange={(e) => setResponsavelCliente(e.target.value)}
@@ -187,7 +188,7 @@ export default function FormTemplate() {
             Email*
           </label>
           <input
-            className="max-sm:text-base h-12 block w-full bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2  sm:text-sm/6"
+            className="max-sm:text-base h-12 block w-full bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2"
             placeholder="Email"
             value={email}
             type="email"
@@ -198,7 +199,7 @@ export default function FormTemplate() {
             Telefone*
           </label>
           <input
-            className="max-sm:text-base h-12 block w-full bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 sm:text-sm/6"
+            className="max-sm:text-base h-12 block w-full bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2"
             placeholder="Telefone"
             type="number"
             value={telefone}
@@ -209,7 +210,7 @@ export default function FormTemplate() {
             RG
           </label>
           <input
-            className="max-sm:text-base h-12 block w-full bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 sm:text-sm/6"
+            className="max-sm:text-base h-12 block w-full bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2"
             placeholder="RG"
             type="number"
             min="0"
@@ -264,7 +265,7 @@ export default function FormTemplate() {
                     e.target.value
                   )
                 }
-                className="max-sm:text-base mb-4 h-12 block w-full bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2  sm:text-sm/6"
+                className="max-sm:text-base mb-4 h-12 block w-full bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2"
               >
                 <option value="">Selecione...</option>
                 <option value="Celta">Celta</option>
@@ -312,13 +313,13 @@ export default function FormTemplate() {
                   handleInputChangePecas(index, "descricao", e.target.value)
                 }
                 rows={3}
-                className="max-sm:text-base w-full block resize-none first-letter:w-full bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 sm:text-sm/6"
+                className="max-sm:text-base w-full block resize-none first-letter:w-full bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2"
               />
               <label className="mt-10 block text-sm/6 font-bold text-gray-900">
                 Quantidade
               </label>
               <input
-                className="max-sm:text-base h-12 block w-full bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 sm:text-sm/6"
+                className="max-sm:text-base h-12 block w-full bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2"
                 placeholder="Quantidade"
                 min="1"
                 value={pecasElement.quantidade}
@@ -339,7 +340,7 @@ export default function FormTemplate() {
                     e.target.value
                   )
                 }
-                className="max-sm:text-base mb-4 h-12 block w-full bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2  sm:text-sm/6"
+                className="max-sm:text-base mb-4 h-12 block w-full bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2"
               >
                 <option value="">Selecione...</option>
                 <option value="Celta">Celta</option>
@@ -393,7 +394,7 @@ export default function FormTemplate() {
             placeholder="Origem"
             value={origem}
             onChange={(e) => setOrigem(e.target.value)}
-            className="max-sm:text-base h-12 block w-full bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 sm:text-sm/6"
+            className="max-sm:text-base h-12 block w-full bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2"
           ></input>
           <label className="mt-10 block text-sm/6 font-bold text-gray-900">
             Destino
@@ -402,13 +403,13 @@ export default function FormTemplate() {
             placeholder="Destino"
             value={destino}
             onChange={(e) => setDestino(e.target.value)}
-            className="max-sm:text-base h-12 block w-full bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 sm:text-sm/6"
+            className="max-sm:text-base h-12 block w-full bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2"
           ></input>
           <label className="mt-10 block text-sm/6 font-bold text-gray-900">
             KM
           </label>
           <input
-            className="max-sm:text-sm h-12 block w-full bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 sm:text-sm/6"
+            className="max-sm:text-sm h-12 block w-full bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2"
             placeholder="KM"
             value={km}
             min="1"
@@ -427,7 +428,7 @@ export default function FormTemplate() {
             Observação
           </label>
           <textarea
-            className="max-sm:text-base mb-4 block w-full resize-none bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 sm:text-sm/6"
+            className="max-sm:text-base mb-4 block w-full resize-none bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2"
             value={obs}
             rows={5}
             onChange={(e) => setObs(e.target.value)}
