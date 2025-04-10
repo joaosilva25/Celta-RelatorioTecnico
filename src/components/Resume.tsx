@@ -243,7 +243,6 @@ export default function Resume() {
               km,
               inicio,
               termino,
-              responsavelFalha,
               obs,
               clientSign,
               techSign
