@@ -505,7 +505,7 @@ export default function FormTemplate() {
       }}
     >
       <div className="flex justify-center bg-white">
-        <div className="w-[550px] max-sm:w-screen  max-sm:px-8 max-sm:pt-24 max-md:p-0  h-full flex justify-center flex-col items-center">
+        <div className="w-[550px] max-sm:w-screen  max-sm:px-8 max-sm:pt-24 max-md:p-0 max-md:pt-24  h-full flex justify-center flex-col items-center">
           <div className="flex space-x-4 mb-4 w-full">
             <div className="flex w-full items-center justify-between">
               <h1 className="text-2xl font-bold">{tabs[activeTab].title}</h1>

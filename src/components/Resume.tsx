@@ -57,10 +57,11 @@ export default function Resume() {
           initial={{ scale: 1, opacity: 0 }}
           animate={{ scale: 1.2, opacity: 1, transition: { duration: 0.3 } }}
           exit={{ scale: 0, opacity: 0 }}
+          className="w-[450px] max-sm:w-full max-sm:px-12 mt-16"
         >
           <Alert
             severity={showAlert.severity}
-            className="flex relative bottom-4 w-[450px]"
+            className="flex relative bottom-4 "
             onClose={closeAlert}
           >
             <span className="text-xs">{showAlert.text}</span>
@@ -68,7 +69,7 @@ export default function Resume() {
         </motion.div>
       )}
 
-      <div className="w-[400px] lg:h-[600px] max-sm:w-full p-8 max-sm:w-full max-sm:pt-16 max-sm:pb-24 max-md:pt-24 max-md:pb-24 max-md:border-none bg-white border flex justify-center flex-col items-center gap-10">
+      <div className="w-[400px] lg:h-[600px] max-sm:w-full p-8 max-sm:pt-16 max-sm:pb-24 max-md:pt-12 max-md:pb-24 max-md:border-none bg-white border flex justify-center flex-col items-center gap-10">
         <div className="w-full">
           <h1 className="text-2xl text-center font-semibold">Resumo</h1>
           <p className="opacity-50 text-sm text-justify w-72 mt-8">

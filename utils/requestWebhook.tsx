@@ -55,7 +55,7 @@ export const requisition = async (
 
   try {
     const req = await fetch(
-      "https://n8n-zgewg-u14829.vm.elestio.app/webhook-test/886cd66f-af49-4e85-86bf-ccda667acf78",
+      "https://n8n-zgewg-u14829.vm.elestio.app/webhook/886cd66f-af49-4e85-86bf-ccda667acf78",
       {
         method: "POST",
         headers: {
