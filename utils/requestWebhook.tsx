@@ -20,7 +20,6 @@ export const requisition = async (
   Km: string,
   Inicio: Dayjs | null,
   Termino: Dayjs | null,
-  ResponsavelFalha: string,
   Obs: string,
   clientSign: string | null,
   techSign: string | null
@@ -40,7 +39,6 @@ export const requisition = async (
     !Km ||
     !Inicio ||
     !Termino ||
-    !ResponsavelFalha ||
     !Obs ||
     !clientSign ||
     !techSign
@@ -88,7 +86,6 @@ export const requisition = async (
           inicio: Inicio?.format("DD/MM/YYYY HH:mm"),
           termino: Termino?.format("DD/MM/YYYY HH:mm"),
           km: Km,
-          responsavelFalha: ResponsavelFalha,
           clientSign: clientSign,
           techSign: techSign,
         }),
