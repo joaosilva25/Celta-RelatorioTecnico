@@ -20,6 +20,7 @@ export const Assinatura = () => {
       const dataUrl = ref.current.toDataURL();
       signatureType(dataUrl);
       sessionStorage.setItem(signKey, dataUrl);
+      console.log(dataUrl);
     }
   };
 
@@ -32,6 +33,7 @@ export const Assinatura = () => {
       ref.current.clear();
       signatureType(null);
       sessionStorage.removeItem(signKey);
+      console.log(signKey);
     }
   };
 

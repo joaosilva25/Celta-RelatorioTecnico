@@ -21,25 +21,30 @@ export const addNewService = (
   services: Service[],
   setServices: React.Dispatch<React.SetStateAction<Service[]>>
 ) => {
-  setServices([
-    ...services,
-    {
-      descService: "",
-    },
-  ]);
+  if (services.length <= 8) {
+    setServices([
+      ...services,
+      {
+        descService: "",
+      },
+    ]);
+  }
 };
 
 export const addNewPecas = (
   pecas: Pecas[],
   setPecas: React.Dispatch<React.SetStateAction<Pecas[]>>
 ) => {
-  setPecas([
-    ...pecas,
-    {
-      descricao: "",
-      quantidade: "0",
-    },
-  ]);
+  if (pecas.length <= 4) {
+    setPecas([
+      ...pecas,
+      {
+        descricao: "",
+        quantidade: "0",
+        responsavelFalha: "",
+      },
+    ]);
+  }
 };
 
 export const deleteService = (

@@ -1,6 +1,9 @@
 "use client";
-import React, { useState, createContext } from "react";
+import React, { useState, createContext, useEffect } from "react";
 import { FaDeleteLeft } from "react-icons/fa6";
+import { IoIosArrowDroprightCircle } from "react-icons/io";
+import { IoIosArrowDropleftCircle } from "react-icons/io";
+import { LiaTrashAlt } from "react-icons/lia";
 import "dayjs/locale/pt";
 import { motion } from "motion/react";
 import { IoAddCircle } from "react-icons/io5";
@@ -58,6 +61,7 @@ export default function FormTemplate() {
     {
       descricao: " ",
       quantidade: "1",
+      responsavelFalha: "",
     },
   ]);
 
@@ -70,7 +74,6 @@ export default function FormTemplate() {
   const [numeroDoContainer, setNumeroDoContainer] = useState("");
   const [responsavelTecnico, setResponsavelTecnico] = useState("");
   const [date, setDate] = useState<Dayjs | null>(null);
-  const [hour, setHour] = useState<Dayjs | null>(null);
   const [obs, setObs] = useState("");
   const [ocorrencia, setOcorrencia] = useState("");
 
@@ -98,7 +101,9 @@ export default function FormTemplate() {
   });
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+
   const open = Boolean(anchorEl);
+
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -115,7 +120,7 @@ export default function FormTemplate() {
             Número do Container
           </label>
           <input
-            className="h-12 block w-full bg-transparent uppercase px-3 py-1.5 text-base text-gray-900 outline outline-1 placeholder:normal-case -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 sm:text-sm/6"
+            className="max-sm:text-sm h-12 block w-full bg-transparent uppercase px-3 py-1.5 text-base text-gray-900 outline outline-1 placeholder:normal-case -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 sm:text-sm/6"
             placeholder="Número do Container"
             value={numeroDoContainer}
             onChange={(e) => setNumeroDoContainer(e.target.value)}
@@ -124,8 +129,9 @@ export default function FormTemplate() {
             Responsável Técnico
           </label>
           <input
-            className="h-12 block w-full bg-transparent uppercase px-3 py-1.5 text-base text-gray-900 outline outline-1 placeholder:normal-case -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 sm:text-sm/6"
+            className="max-sm:text-sm h-12 block w-full bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 placeholder:normal-case -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 sm:text-sm/6"
             value={responsavelTecnico}
+            type="text"
             placeholder="Responsavel Técnico"
             onChange={(e) => setResponsavelTecnico(e.target.value)}
           />
@@ -135,7 +141,7 @@ export default function FormTemplate() {
           <select
             value={ocorrencia}
             onChange={(e) => setOcorrencia(e.target.value)}
-            className="mb-4 h-12 block w-full bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2  sm:text-sm/6"
+            className="max-sm:text-sm mb-4 h-12 block w-full bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2  sm:text-sm/6"
           >
             <option value="">Selecione...</option>
             <option value="Emergencial">Emergencial</option>
@@ -145,38 +151,16 @@ export default function FormTemplate() {
             <option value="Outros">Outros</option>
           </select>
 
-          <div className="mt-14 flex justify-between gap-4">
-            <LocalizationProvider
-              dateAdapter={AdapterDayjs}
-              localeText={
-                ptBR.components.MuiLocalizationProvider.defaultProps.localeText
-              }
-              adapterLocale="pt"
-            >
-              <DatePicker
-                views={["day", "month", "year"]}
-                value={date}
-                label={"Data"}
-                timezone="America/Sao_Paulo"
-                onChange={(newValue) => setDate(newValue)}
-              />
-            </LocalizationProvider>
-            <LocalizationProvider
-              dateAdapter={AdapterDayjs}
-              localeText={
-                ptBR.components.MuiLocalizationProvider.defaultProps.localeText
-              }
-            >
-              <TimePicker
-                views={["hours", "minutes"]}
+          <label className="mt-10 block text-sm/6 font-bold text-gray-900">
+            Data / Hora Relatório
+          </label>
+          <div className="flex gap-4">
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DateTimePicker
                 ampm={false}
-                label={"Hora"}
-                timezone="America/Sao_Paulo"
-                onChange={(newValue) => setHour(newValue)}
-                localeText={
-                  ptBR.components.MuiLocalizationProvider.defaultProps
-                    .localeText
-                }
+                value={date}
+                format="DD/MM/YYYY HH:mm"
+                onChange={(newValue) => setDate(newValue)}
               />
             </LocalizationProvider>
           </div>
@@ -192,7 +176,7 @@ export default function FormTemplate() {
             Responsável Cliente
           </label>
           <input
-            className="h-12 block w-full bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 sm:text-sm/6"
+            className="max-sm:text-sm h-12 block w-full bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 sm:text-sm/6"
             placeholder="Cliente"
             value={responsavelCliente}
             onChange={(e) => setResponsavelCliente(e.target.value)}
@@ -202,9 +186,10 @@ export default function FormTemplate() {
             Email*
           </label>
           <input
-            className="h-12 block w-full bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2  sm:text-sm/6"
+            className="max-sm:text-sm h-12 block w-full bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2  sm:text-sm/6"
             placeholder="Email"
             value={email}
+            type="email"
             onChange={(e) => setEmail(e.target.value)}
           />
 
@@ -212,7 +197,7 @@ export default function FormTemplate() {
             Telefone*
           </label>
           <input
-            className="h-12 block w-full bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 sm:text-sm/6"
+            className="max-sm:text-sm h-12 block w-full bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 sm:text-sm/6"
             placeholder="Telefone"
             type="number"
             value={telefone}
@@ -223,7 +208,7 @@ export default function FormTemplate() {
             RG
           </label>
           <input
-            className="h-12 block w-full bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 sm:text-sm/6"
+            className="max-sm:text-sm h-12 block w-full bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 sm:text-sm/6"
             placeholder="RG"
             type="number"
             min="0"
@@ -235,7 +220,7 @@ export default function FormTemplate() {
       index: 2,
     },
     {
-      title: "Serviços realizados",
+      title: "Serviços Realizados",
       content: (
         <>
           {services.map((serviceElement, index) => (
@@ -264,7 +249,7 @@ export default function FormTemplate() {
                 onChange={(e) =>
                   handleInputChange(index, "descService", e.target.value)
                 }
-                className="mt-2 block w-full  resize-none bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 sm:text-sm"
+                className="max-sm:text-sm mt-2 block w-full  resize-none bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 sm:text-sm"
               />
             </div>
           ))}
@@ -308,13 +293,13 @@ export default function FormTemplate() {
                   handleInputChangePecas(index, "descricao", e.target.value)
                 }
                 rows={3}
-                className="w-full block resize-none first-letter:w-full bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 sm:text-sm/6"
+                className="max-sm:text-sm w-full block resize-none first-letter:w-full bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 sm:text-sm/6"
               />
               <label className="mt-10 block text-sm/6 font-bold text-gray-900">
                 Quantidade
               </label>
               <input
-                className="h-12 block w-full bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 sm:text-sm/6"
+                className="max-sm:text-sm h-12 block w-full bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 sm:text-sm/6"
                 placeholder="Quantidade"
                 min="1"
                 value={pecasElement.quantidade}
@@ -323,6 +308,24 @@ export default function FormTemplate() {
                 }
                 type="number"
               />
+              <label className="mt-10 block text-sm/6 font-bold text-gray-900">
+                Responsável Falha
+              </label>
+              <select
+                value={pecasElement.responsavelFalha}
+                onChange={(e) =>
+                  handleInputChangePecas(
+                    index,
+                    "responsavelFalha",
+                    e.target.value
+                  )
+                }
+                className="max-sm:text-sm mb-4 h-12 block w-full bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2  sm:text-sm/6"
+              >
+                <option value="">Selecione...</option>
+                <option value="Celta">Celta</option>
+                <option value="Cliente">Cliente</option>
+              </select>
             </div>
           ))}
           <button
@@ -339,18 +342,31 @@ export default function FormTemplate() {
       title: "Controle de Atendimento",
       content: (
         <>
-          <label className="mt-10 block text-sm/6 font-bold text-gray-900">
-            Responsável pela Falha
-          </label>
-          <select
-            value={responsavelFalha}
-            onChange={(e) => setResponsavelFalha(e.target.value)}
-            className="mb-4 h-12 block w-full bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2  sm:text-sm/6"
-          >
-            <option value="">Selecione...</option>
-            <option value="Celta">Celta</option>
-            <option value="Cliente">Cliente</option>
-          </select>
+          <div className="flex flex-col gap-1">
+            <label className="mt-10 block text-sm/6 font-bold text-gray-900">
+              Data inicial / Final Reparo
+            </label>
+            <div className="flex gap-4 mt-2 justify-between">
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DateTimePicker
+                  ampm={false}
+                  value={inicio}
+                  label={"Data Inicial"}
+                  format="DD/MM/YYYY HH:mm"
+                  onChange={(newValue) => setInicio(newValue)}
+                />
+              </LocalizationProvider>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DateTimePicker
+                  ampm={false}
+                  value={termino}
+                  label={"Data Final"}
+                  format="DD/MM/YYYY HH:mm"
+                  onChange={(newValue) => setTermino(newValue)}
+                />
+              </LocalizationProvider>
+            </div>
+          </div>
           <label className="mt-10 block text-sm/6 font-bold text-gray-900">
             Origem
           </label>
@@ -358,7 +374,7 @@ export default function FormTemplate() {
             placeholder="Origem"
             value={origem}
             onChange={(e) => setOrigem(e.target.value)}
-            className="h-12 block w-full bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 sm:text-sm/6"
+            className="max-sm:text-sm h-12 block w-full bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 sm:text-sm/6"
           ></input>
           <label className="mt-10 block text-sm/6 font-bold text-gray-900">
             Destino
@@ -367,44 +383,19 @@ export default function FormTemplate() {
             placeholder="Destino"
             value={destino}
             onChange={(e) => setDestino(e.target.value)}
-            className="h-12 block w-full bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 sm:text-sm/6"
+            className="max-sm:text-sm h-12 block w-full bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 sm:text-sm/6"
           ></input>
           <label className="mt-10 block text-sm/6 font-bold text-gray-900">
             KM
           </label>
           <input
-            className="h-12 block w-full bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 sm:text-sm/6"
+            className="max-sm:text-sm h-12 block w-full bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 sm:text-sm/6"
             placeholder="KM"
             value={km}
             min="1"
             onChange={(e) => setKm(e.target.value)}
             type="number"
           />{" "}
-          <div className="flex flex-col gap-1">
-            <label className="mt-10 block text-sm/6 font-bold text-gray-900">
-              Data inicial / Final Reparo
-            </label>
-            <div className="flex gap-4 mt-2 justify-between">
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DateTimePicker
-                  views={["day", "month", "year"]}
-                  ampm={false}
-                  value={inicio}
-                  label={"Data Inicial"}
-                  onChange={(newValue) => setInicio(newValue)}
-                />
-              </LocalizationProvider>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DateTimePicker
-                  views={["day", "month", "year"]}
-                  ampm={false}
-                  value={termino}
-                  label={"Data Final"}
-                  onChange={(newValue) => setTermino(newValue)}
-                />
-              </LocalizationProvider>
-            </div>
-          </div>
         </>
       ),
       index: 5,
@@ -417,7 +408,7 @@ export default function FormTemplate() {
             Observação
           </label>
           <textarea
-            className="mb-4 block w-full resize-none bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 sm:text-sm/6"
+            className="max-sm:text-sm mb-4 block w-full resize-none bg-transparent px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 sm:text-sm/6"
             value={obs}
             rows={5}
             onChange={(e) => setObs(e.target.value)}
@@ -445,13 +436,54 @@ export default function FormTemplate() {
     setActiveTab(newActive);
   };
 
+  const prev = () => {
+    let newActive = activeTab - 1;
+
+    console.log(activeTab);
+    if (newActive >= tabs.length) {
+      newActive = 0; // Se ultrapassar o índice máximo, volta para 0
+    }
+
+    // Atualizando o estado com o novo índice
+    setActiveTab(newActive);
+  };
+
+  const eraseFields = () => {
+    setNumeroDoContainer("");
+    setResponsavelTecnico("");
+    setDate(null);
+    setOcorrencia("");
+    setResponsavelCliente("");
+    setEmail("");
+    setTelefone("");
+    setRg("");
+    setServices([
+      {
+        descService: " ",
+      },
+    ]);
+    setPecas([
+      {
+        descricao: " ",
+        quantidade: "1",
+        responsavelFalha: " ",
+      },
+    ]);
+    setOrigem("");
+    setDestino("");
+    setKm("");
+    setInicio(null);
+    setTermino(null);
+    setResponsavelFalha("");
+    setObs("");
+  };
+
   return (
     <MyContext.Provider
       value={{
         numeroDoContainer,
         responsavelTecnico,
         date,
-        hour,
         ocorrencia,
         responsavelCliente,
         email,
@@ -473,7 +505,7 @@ export default function FormTemplate() {
       }}
     >
       <div className="flex justify-center bg-white">
-        <div className="w-[550px] h-full flex justify-center flex-col items-center">
+        <div className="w-[550px] max-sm:w-screen  max-sm:px-8 max-sm:pt-24 max-md:p-0  h-full flex justify-center flex-col items-center">
           <div className="flex space-x-4 mb-4 w-full">
             <div className="flex w-full items-center justify-between">
               <h1 className="text-2xl font-bold">{tabs[activeTab].title}</h1>
@@ -489,11 +521,11 @@ export default function FormTemplate() {
               </button> */}
             </div>
           </div>
-          <div className="custom-scroll w-full mt-6 cursor-pointer bg-transparent max-w-full flex gap-6 text-sm mb-8 overflow-x-auto">
+          <div className="custom-scroll w-full mt-6 cursor-pointer bg-transparent max-w-full flex gap-6 max-sm:gap-3 text-sm mb-8 overflow-x-auto">
             {tabs.map((tab, index) => (
               <Stack key={index} spacing={2}>
                 <div
-                  className={`flex items-center justify-center border border-black h-10 w-10 ${
+                  className={`flex items-center justify-center border border-black h-10 w-10 max-sm:h-8 max-sm:w-8 ${
                     activeTab === index
                       ? "border-black font-bold bg-black text-white"
                       : "bg-transparent text-black"
@@ -514,25 +546,30 @@ export default function FormTemplate() {
             exit={{ x: -200, opacity: 0 }}
           >
             <form
-              className="flex pt-2 w-full justify-center flex-col overflow-y-auto overscroll-auto  p-2"
+              className="flex pt-2 w-full max-sm:h-[400px] justify-center flex-col overflow-y-auto overscroll-auto p-2"
               method="POST"
               onSubmit={(e) => e.preventDefault()}
             >
               <div className="max-h-[400px]">{tabs[activeTab].content}</div>
             </form>
-            <div className="mt-2 py-12 w-full">
+            <div className="mt-2 py-12 w-full flex justify-around gap-10">
               <button
-                onClick={() => next()}
-                className="h-14 flex w-full shadow-xl p-2
+                onClick={() => eraseFields()}
+                className="h-14 flex w-full shadow-xl
 
-justify-center  items-center bg-transparent border border-black px-3 py-1.5 text-sm/6 font-semibold text-black hover:bg-primaryColor hover:text-white focus-visible:outline
+justify-around  items-center bg-transparent border border-black px-3 py-1.5 text-sm/6 font-semibold text-black hover:bg-black hover:text-white focus-visible:outline
 active:scale-105"
               >
-                Próximo
+                <span className="max-sm:text-xs">Limpar Tudo</span>
+                <LiaTrashAlt className="text-2xl" />
               </button>
-              <div className="mt-10 w-full flex justify-end">
-                {tabs[activeTab].index} /{" "}
-                <span className="font-bold ml-1">{tabs.length}</span>
+              <div className="flex gap-1">
+                <button onClick={() => prev()} className="">
+                  <IoIosArrowDropleftCircle className="text-5xl max-sm:text-4xl" />
+                </button>
+                <button onClick={() => next()} className="">
+                  <IoIosArrowDroprightCircle className="text-5xl max-sm:text-4xl" />
+                </button>
               </div>
             </div>
           </motion.div>

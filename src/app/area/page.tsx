@@ -39,8 +39,10 @@ export default function Area() {
             />
           </div>
         </header>
-        <FormTemplate />
-        <Resume />
+        <div className="flex justify-around w-screen max-sm:flex-col max-md:flex-col max-md:justify-center max-md:items-center">
+          <FormTemplate />
+          <Resume />
+        </div>
       </main>
     </motion.div>
   );

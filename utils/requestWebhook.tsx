@@ -1,13 +1,13 @@
+"use client";
 import { Dayjs } from "dayjs";
 import { Alert, Pecas, Service } from "../types/MyContext";
+import { useState } from "react";
 
 export const requisition = async (
   setShowAlert: React.Dispatch<React.SetStateAction<Alert>>,
-  //   setLoadReqText: React.Dispatch<React.SetStateAction<boolean>>,
   NumeroDoContainer: string,
   ResponsavelTecnico: string,
   Date: Dayjs | null,
-  Hour: Dayjs | null,
   ocorrencia: string,
   ResponsavelCliente: string,
   Email: string,
@@ -29,10 +29,8 @@ export const requisition = async (
     !NumeroDoContainer ||
     !ResponsavelTecnico ||
     !Date ||
-    !Hour ||
     !ocorrencia ||
     !ResponsavelCliente ||
-    !Email ||
     !Telefone ||
     !Rg ||
     !Services.length ||
@@ -49,7 +47,7 @@ export const requisition = async (
   ) {
     setShowAlert({
       severity: "error",
-      text: "Preencha os campos para gerar Orçamento",
+      text: "Preencha os campos para gerar Relatório",
       show: true,
     });
     return;
@@ -70,7 +68,7 @@ export const requisition = async (
           Dia: Date?.format("DD"),
           Mes: Date?.format("MM"),
           Ano: Date?.format("YYYY"),
-          Hour: Hour?.format("HH:mm"),
+          Hour: Date?.format("HH:mm"),
           ocorrencia: ocorrencia,
           ResponsavelCliente,
           Email,
@@ -82,6 +80,7 @@ export const requisition = async (
           Peças: Pecas.map((peca) => ({
             descrição: peca.descricao,
             quantidade: peca.quantidade,
+            responsavelFalha: peca.responsavelFalha,
           })),
           Observação: Obs,
           destino: Destino,
@@ -99,7 +98,7 @@ export const requisition = async (
     if (req.ok) {
       setShowAlert({
         severity: "success",
-        text: "Orçamento gerado com sucesso!",
+        text: "Relatório gerado com sucesso !",
         show: true,
       });
     } else {

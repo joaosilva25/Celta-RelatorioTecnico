@@ -1,5 +1,5 @@
 "use client";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { MyContext } from "./forms";
 import Alert from "@mui/material/Alert";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -8,6 +8,7 @@ import { AiOutlineLoading } from "react-icons/ai";
 import { OrbitProgress } from "react-loading-indicators";
 import { motion } from "motion/react";
 import { requisition } from "../../utils/requestWebhook";
+import { LiaFileAlt } from "react-icons/lia";
 
 export default function Resume() {
   const context = useContext(MyContext);
@@ -19,6 +20,7 @@ export default function Resume() {
       show: false,
     });
   }
+  const [loadReqText, setLoadReqText] = useState(false);
 
   if (!context) {
     return null;
@@ -28,7 +30,6 @@ export default function Resume() {
     numeroDoContainer,
     responsavelTecnico,
     date,
-    hour,
     ocorrencia,
     responsavelCliente,
     email,
@@ -67,11 +68,9 @@ export default function Resume() {
         </motion.div>
       )}
 
-      <div className="w-[400px] lg:h-[600px] p-10 bg-white border flex justify-center flex-col items-center gap-10">
+      <div className="w-[400px] lg:h-[600px] p-8 max-sm:w-full max-sm:pt-16 max-sm:pb-24 max-md:pt-24 max-md:pb-24 max-md:border-none bg-white border flex justify-center flex-col items-center gap-10">
         <div className="w-full">
-          <h1 className="text-2xl text-center">
-            <span className="font-bold">Res</span>umo
-          </h1>
+          <h1 className="text-2xl text-center font-semibold">Resumo</h1>
           <p className="opacity-50 text-sm text-justify w-72 mt-8">
             Confira e confirme os dados inseridos antes de prosseguir com a
             ação.
@@ -95,13 +94,7 @@ export default function Resume() {
           <div className="flex gap-2 mb-2">
             <h4 className="font-bold text-sm">Data:</h4>
             <h4 className="font-light text-sm">
-              {date ? date.format("DD/MM/YYYY") : "Não informado"}
-            </h4>
-          </div>
-          <div className="flex gap-2 mb-2">
-            <h4 className="font-bold text-sm">Hora:</h4>
-            <h4 className="font-light text-sm">
-              {hour ? hour.format("HH:mm") : "Não informado"}
+              {date ? date.format("DD/MM/YYYY HH:mm") : "Não informado"}
             </h4>
           </div>
 
@@ -163,6 +156,9 @@ export default function Resume() {
                 <h4 className="font-light text-sm">
                   Quantidade: {pecas.quantidade || "Não informado"}
                 </h4>
+                <h4 className="font-light text-sm">
+                  Responsável Falha: {pecas.responsavelFalha || "Não informado"}
+                </h4>
               </div>
             ))}
           </div>
@@ -201,13 +197,6 @@ export default function Resume() {
                   : "Não informado"}{" "}
               </h4>
             </div>
-
-            <div className="flex gap-2 mb-2">
-              <h4 className="font-bold text-sm">Responsável pela Falha:</h4>
-              <h4 className="font-light text-sm">
-                {responsavelFalha || "Não informado"}
-              </h4>
-            </div>
           </div>
 
           <div className="mt-4">
@@ -216,7 +205,7 @@ export default function Resume() {
               <h4 className="font-light text-sm">{obs || "Não informado"}</h4>
             </div>
           </div>
-          <div>
+          {/* <div>
             <div className="flex gap-2">
               <h4 className="font-bold text-sm">Assinatura Tecnico:</h4>
               <h4 className="font-light text-sm">
@@ -231,16 +220,16 @@ export default function Resume() {
                 {clientSign ? "OK" : "Não informado"}
               </h4>
             </div>
-          </div>
+          </div> */}
         </div>
         <button
-          onClick={() =>
+          onClick={() => {
+            setLoadReqText(true);
             requisition(
               setShowAlert,
               numeroDoContainer,
               responsavelTecnico,
               date,
-              hour,
               ocorrencia,
               responsavelCliente,
               email,
@@ -257,11 +246,21 @@ export default function Resume() {
               obs,
               clientSign,
               techSign
-            )
-          }
-          className="h-14 relative top-2 flex w-full justify-center gap-5 items-center bg-primaryColor px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm active:scale-105 focus-visible:outline"
+            ).finally(() => setLoadReqText(false));
+          }}
+          className="h-14 relative top-2 flex w-full justify-center gap-5 items-center bg-transparent border border-black px-3 py-1.5 text-sm/6 font-semibold hover:text-white shadow-sm hover:bg-primaryColor active:scale-105 focus-visible:outline"
         >
-          Gerar Orçamento
+          {loadReqText ? (
+            <>
+              <AiOutlineLoading className="animate-spin" />
+              Gerando Orçamento...
+            </>
+          ) : (
+            <>
+              Gerar Orçamento
+              <LiaFileAlt className="text-2xl" />
+            </>
+          )}
         </button>
       </div>
     </div>

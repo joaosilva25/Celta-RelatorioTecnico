@@ -4,7 +4,6 @@ import React, { Dispatch, SetStateAction } from "react";
 export interface MyContextType {
   numeroDoContainer: string;
   responsavelTecnico: string;
-  hour: Dayjs | null;
   date: Dayjs | null;
   ocorrencia: string;
   responsavelCliente: string;
@@ -45,4 +44,5 @@ export interface Service {
 export interface Pecas {
   descricao: string;
   quantidade: string;
+  responsavelFalha: string;
 }
