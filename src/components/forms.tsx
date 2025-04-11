@@ -162,6 +162,13 @@ export default function FormTemplate() {
                 value={date}
                 format="DD/MM/YYYY HH:mm"
                 onChange={(newValue) => setDate(newValue)}
+                slotProps={{
+                  textField: {
+                    InputProps: {
+                      sx: { fontSize: "16px" },
+                    },
+                  },
+                }}
               />
             </LocalizationProvider>
           </div>
@@ -374,6 +381,13 @@ export default function FormTemplate() {
                   label={"Data Inicial"}
                   format="DD/MM/YYYY HH:mm"
                   onChange={(newValue) => setInicio(newValue)}
+                  slotProps={{
+                    textField: {
+                      InputProps: {
+                        sx: { fontSize: "16px" },
+                      },
+                    },
+                  }}
                 />
               </LocalizationProvider>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -383,6 +397,13 @@ export default function FormTemplate() {
                   label={"Data Final"}
                   format="DD/MM/YYYY HH:mm"
                   onChange={(newValue) => setTermino(newValue)}
+                  slotProps={{
+                    textField: {
+                      InputProps: {
+                        sx: { fontSize: "16px" },
+                      },
+                    },
+                  }}
                 />
               </LocalizationProvider>
             </div>
@@ -449,7 +470,7 @@ export default function FormTemplate() {
 
     console.log(activeTab);
     if (newActive >= tabs.length) {
-      newActive = 0; // Se ultrapassar o índice máximo, volta para 0
+      newActive = 0;
     }
 
     // Atualizando o estado com o novo índice
@@ -459,12 +480,10 @@ export default function FormTemplate() {
   const prev = () => {
     let newActive = activeTab - 1;
 
-    console.log(activeTab);
-    if (newActive >= tabs.length) {
-      newActive = 0; // Se ultrapassar o índice máximo, volta para 0
+    if (newActive < 0) {
+      newActive = tabs.length - 1;
     }
 
-    // Atualizando o estado com o novo índice
     setActiveTab(newActive);
   };
 
@@ -541,7 +560,7 @@ export default function FormTemplate() {
               </button> */}
             </div>
           </div>
-          <div className="custom-scroll w-full mt-6 cursor-pointer bg-transparent max-w-full flex gap-6 max-sm:gap-3 text-sm mb-8 overflow-x-auto">
+          <div className="custom-scroll w-full mt-6 cursor-pointer bg-transparent max-w-full flex gap-6 max-sm:gap-3 text-sm mb-8 max-sm:mb-0 overflow-x-auto">
             {tabs.map((tab, index) => (
               <Stack key={index} spacing={2}>
                 <div
@@ -566,7 +585,7 @@ export default function FormTemplate() {
             exit={{ x: -200, opacity: 0 }}
           >
             <form
-              className="flex pt-2 w-full max-sm:h-[400px] justify-center flex-col overflow-y-auto overscroll-auto p-2"
+              className="flex pt-2 w-full max-sm:h-[600px] max-sm:pt-0 justify-center flex-col overflow-y-auto overscroll-auto p-2"
               method="POST"
               onSubmit={(e) => e.preventDefault()}
             >
@@ -584,10 +603,10 @@ active:scale-105"
                 <LiaTrashAlt className="text-2xl" />
               </button>
               <div className="flex gap-1">
-                <button onClick={() => prev()} className="">
+                <button onClick={() => prev()} className="active:scale-110">
                   <IoIosArrowDropleftCircle className="text-5xl max-sm:text-4xl" />
                 </button>
-                <button onClick={() => next()} className="">
+                <button onClick={() => next()} className="active:scale-110">
                   <IoIosArrowDroprightCircle className="text-5xl max-sm:text-4xl" />
                 </button>
               </div>
