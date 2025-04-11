@@ -1,7 +1,6 @@
 "use client";
 import { Dayjs } from "dayjs";
 import { Alert, Pecas, Service } from "../types/MyContext";
-import { useState } from "react";
 
 export const requisition = async (
   setShowAlert: React.Dispatch<React.SetStateAction<Alert>>,
@@ -24,25 +23,7 @@ export const requisition = async (
   clientSign: string | null,
   techSign: string | null
 ) => {
-  if (
-    !NumeroDoContainer ||
-    !ResponsavelTecnico ||
-    !Date ||
-    !ocorrencia ||
-    !ResponsavelCliente ||
-    !Telefone ||
-    !Rg ||
-    !Services.length ||
-    !Pecas.length ||
-    !Destino ||
-    !Origem ||
-    !Km ||
-    !Inicio ||
-    !Termino ||
-    !Obs ||
-    !clientSign ||
-    !techSign
-  ) {
+  if (!clientSign || !techSign) {
     setShowAlert({
       severity: "error",
       text: "Preencha os campos para gerar Relatório",

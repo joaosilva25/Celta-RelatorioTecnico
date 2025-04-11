@@ -1,5 +1,5 @@
 import { Dayjs } from "dayjs";
-import React, { Dispatch, SetStateAction } from "react";
+import React from "react";
 
 export interface MyContextType {
   numeroDoContainer: string;

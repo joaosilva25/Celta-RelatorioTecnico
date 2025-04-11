@@ -16,11 +16,10 @@ export const Assinatura = () => {
     ref: React.RefObject<SignatureCanvas>,
     signKey: string
   ) => {
-    if (signatureType && ref.current && typeof window !== "undefined") {
+    if (ref.current && typeof window !== "undefined") {
       const dataUrl = ref.current.toDataURL();
-      signatureType(dataUrl);
       sessionStorage.setItem(signKey, dataUrl);
-      console.log(dataUrl);
+      signatureType(dataUrl);
     }
   };
 
@@ -33,9 +32,10 @@ export const Assinatura = () => {
       ref.current.clear();
       signatureType(null);
       sessionStorage.removeItem(signKey);
-      console.log(signKey);
     }
   };
+
+  sessionStorage.getItem("clientSign");
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -51,6 +51,23 @@ export const Assinatura = () => {
         setSignatureTechnician(storedTechSign);
         sigRefTech.current?.fromDataURL(storedTechSign);
       }
+
+      const handleClear = () => {
+        if (sigRefClient.current) {
+          sigRefClient.current.clear();
+          setSignatureClient(null);
+        }
+        if (sigRefTech.current) {
+          sigRefTech.current.clear();
+          setSignatureTechnician(null);
+        }
+      };
+
+      window.addEventListener("clear-signatures", handleClear);
+
+      return () => {
+        window.removeEventListener("clear-signatures", handleClear);
+      };
     }
   }, []);
 
@@ -80,7 +97,6 @@ export const Assinatura = () => {
           </button>
         </div>
       </div>
-
       {/* Assinatura Cliente */}
       <div className="flex flex-col gap-4">
         <div className="border-b border-gray-300 h-48 max-sm:h-36">

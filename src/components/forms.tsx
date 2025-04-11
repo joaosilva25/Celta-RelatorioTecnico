@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, createContext, useEffect } from "react";
+import React, { useState, createContext, useRef } from "react";
 import { FaDeleteLeft } from "react-icons/fa6";
 import { IoIosArrowDroprightCircle } from "react-icons/io";
 import { IoIosArrowDropleftCircle } from "react-icons/io";
@@ -8,25 +8,13 @@ import "dayjs/locale/pt";
 import { motion } from "motion/react";
 import { IoAddCircle } from "react-icons/io5";
 import Resume from "./Resume";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
-import { ptBR } from "@mui/x-date-pickers/locales";
-import Button from "@mui/material/Button";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
 import "dayjs/locale/pt-br";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
-import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import {
-  Alert,
-  MyContextType,
-  Pecas,
-  Produto,
-  Service,
-} from "../../types/MyContext";
+import { Alert, MyContextType, Pecas, Service } from "../../types/MyContext";
 import {
   addNewPecas,
   addNewService,
@@ -34,7 +22,7 @@ import {
   deleteService,
 } from "../../utils/addAndDeleteInputsFunction";
 import dayjs, { Dayjs } from "dayjs";
-import { Pagination, Stack } from "@mui/material";
+import { Stack } from "@mui/material";
 import { Assinatura } from "../../utils/canvaSignature";
 
 dayjs.locale("pt-br");
@@ -282,7 +270,7 @@ export default function FormTemplate() {
           ))}
           <button
             onClick={() => addNewService(services, setServices)}
-            className="text-xl bg-transparent mt-10 h-14 flex w-full justify-center items-center px-3 py-1.5  font-semibold text-white shadow-sm focus-visible:outline"
+            className="text-xl bg-transparent mt-10 h-14 flex w-full justify-center items-center px-3 py-1.5  font-semibold text-white shadow-sm focus-visible:outline active:scale-110sss"
           >
             <IoAddCircle size={40} className="text-black" />
           </button>
@@ -357,7 +345,7 @@ export default function FormTemplate() {
           ))}
           <button
             onClick={() => addNewPecas(pecas, setPecas)}
-            className="text-xl bg-transparent mt-10 h-14 flex w-full justify-center items-center px-3 py-1.5  font-semibold text-white shadow-sm focus-visible:outline"
+            className="text-xl bg-transparent mt-10 h-14 flex w-full justify-center items-center px-3 py-1.5  font-semibold text-white shadow-sm focus-visible:outline "
           >
             <IoAddCircle size={40} className="text-black" />
           </button>
@@ -487,6 +475,8 @@ export default function FormTemplate() {
     setActiveTab(newActive);
   };
 
+  const assinaturaRef = useRef(null);
+
   const eraseFields = () => {
     setNumeroDoContainer("");
     setResponsavelTecnico("");
@@ -516,6 +506,9 @@ export default function FormTemplate() {
     setTermino(null);
     setResponsavelFalha("");
     setObs("");
+
+    sessionStorage.clear();
+    window.dispatchEvent(new Event("clear-signatures"));
   };
 
   return (
@@ -591,7 +584,7 @@ export default function FormTemplate() {
             >
               <div className="max-h-[400px]">{tabs[activeTab].content}</div>
             </form>
-            <div className="mt-2 py-12 w-full flex justify-around gap-10">
+            <div className="mt-2 py-12 w-full flex justify-around gap-10 max-sm:py-8">
               <button
                 onClick={() => eraseFields()}
                 className="h-14 flex w-full shadow-xl

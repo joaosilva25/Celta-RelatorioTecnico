@@ -1,5 +1,4 @@
 "use client";
-import { useState } from "react";
 import { Pecas, Produto, Service } from "../types/MyContext";
 
 export const addNewProduct = (
