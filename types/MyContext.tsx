@@ -18,7 +18,6 @@ export interface MyContextType {
   km: string;
   inicio: Dayjs | null;
   termino: Dayjs | null;
-  responsavelFalha: string;
   showAlert: Alert;
   setShowAlert: React.Dispatch<React.SetStateAction<Alert>>;
   clientSign: string | null;
@@ -39,6 +38,7 @@ export interface Produto {
 
 export interface Service {
   descService: string;
+  responsavelFalhaServico: string;
 }
 
 export interface Pecas {
