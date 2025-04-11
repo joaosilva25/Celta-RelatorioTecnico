@@ -26,6 +26,7 @@ export const addNewService = (
       ...services,
       {
         descService: "",
+        responsavelFalhaServico: "",
       },
     ]);
   }
